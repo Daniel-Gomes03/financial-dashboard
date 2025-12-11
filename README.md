@@ -35,3 +35,12 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 # financial-dashboard
+
+<img width="1728" height="999" alt="Captura de Tela 2025-12-11 às 16 55 47" src="https://github.com/user-attachments/assets/c29efe7a-42de-4f9c-8b2f-88a78d6a0e7f" />
+
+<img width="1728" height="999" alt="Captura de Tela 2025-12-11 às 16 56 12" src="https://github.com/user-attachments/assets/c23e4130-a7ad-4ae9-8ce2-7c33422bd912" />
+
+<img width="1728" height="999" alt="Captura de Tela 2025-12-11 às 16 57 25" src="https://github.com/user-attachments/assets/05c8f9d8-721d-4f50-8524-b21405e1bf5b" />
+
+<img width="1728" height="999" alt="Captura de Tela 2025-12-11 às 16 58 05" src="https://github.com/user-attachments/assets/3581a476-4b65-41df-8e24-00cf12fe4e22" />
+
