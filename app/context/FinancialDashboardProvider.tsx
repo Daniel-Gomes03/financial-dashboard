@@ -15,7 +15,7 @@ import { useEventsStore } from "../store/eventsStore";
 export const FinancialDashboardContext = createContext<FinancialDashboardContextType | undefined>(undefined);
 
 function findDataset(projection: ProjectionType, name: string) {
-  return projection.cash_flow.datasets.find((d) => d.name === name);
+  return projection.cash_flow.datasets.find((dataset) => dataset.name === name);
 }
 
 function getDatasetByType(projection: ProjectionType, type: EventType) {
@@ -134,14 +134,14 @@ export const FinancialDashboardProvider = ({ children }: { children: React.React
   const removeEvent = React.useCallback(async (eventId: string) => {
     removeEventFromStore(eventId);
     
-    setSimulation(prev => prev ? { ...prev, events: prev.events.filter(e => e.id !== eventId) } : prev);
+    setSimulation(prev => prev ? { ...prev, events: prev.events.filter(event => event.id !== eventId) } : prev);
 
     if (!simulation) return;
     try {
       const res = await fetch("/api/simulation-data");
       if (!res.ok) throw new Error("Erro ao recarregar dados iniciais");
       const data: SimulationDataType = await res.json();
-      const eventosRestantes = simulation.events.filter(e => e.id !== eventId);
+      const eventosRestantes = simulation.events.filter(event => event.id !== eventId);
       let novaProjection = data.projection;
       for (const evento of eventosRestantes) {
         novaProjection = processEventOnProjection(novaProjection, evento);

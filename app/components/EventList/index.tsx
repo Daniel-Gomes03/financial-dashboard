@@ -8,7 +8,7 @@ import { EventType, FrequencyType } from '@/app/constants/form.constants';
 
 export function EventList() {
   const { simulation, removeEvent } = useFinancialDashboard();
-  const events = [...simulation.events].sort((a, b) => b.created_at.localeCompare(a.created_at));
+  const events = [...simulation.events].sort((firstEvent, secondEvent) => secondEvent.created_at.localeCompare(firstEvent.created_at));
 
   if(events.length === 0) return (<div className="text-gray-500 text-center mt-6 mb-6">Nenhum evento cadastrado.</div>);
 

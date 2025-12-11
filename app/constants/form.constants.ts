@@ -1,11 +1,13 @@
 export enum EventType {
   RENDA = 'renda',
-  DESPESA = 'despesa'
+  DESPESA = 'despesa',
+  DESPESAS = 'despesas'
 }
 
 export const EVENT_TYPE_LABELS: Record<EventType, string> = {
   [EventType.RENDA]: 'Renda',
-  [EventType.DESPESA]: 'Despesa'
+  [EventType.DESPESA]: 'Despesa',
+  [EventType.DESPESAS]: 'Despesas'
 };
 
 export enum FrequencyType {
