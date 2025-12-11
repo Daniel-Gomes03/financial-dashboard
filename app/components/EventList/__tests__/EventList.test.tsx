@@ -98,7 +98,7 @@ describe('EventList', () => {
       },
     ];
     const { container } = renderEventList(events);
-    const eventCard = container.querySelector('.border-green-400.bg-green-50');
+    const eventCard = container.querySelector('.border-primary-500.bg-primary-50');
     expect(eventCard).toBeInTheDocument();
   });
 

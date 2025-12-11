@@ -14,32 +14,34 @@ export default function Home() {
 
   return (
     <FinancialDashboardProvider>
-      <NavigationMenu currentView={currentView} onViewChange={setCurrentView} />
-      <main className="container mx-auto p-4 pt-20 md:pt-4 flex flex-col gap-6">
-        {currentView === 'dashboard' ? (
-          <>
-            <h1 className="text-2xl font-bold text-center pr-16 md:pr-0">Dashboard de Projeção Financeira</h1>
-            <section>
-              <CashFlowChart />
-            </section>
-            <section className="flex flex-col gap-6">
-              <div className="flex justify-end">
-                <AddEventButton />
-              </div>
-              <div>
-                <EventList />
-              </div>
-            </section>
-          </>
-        ) : (
-          <>
-            <h1 className="text-2xl font-bold text-center pr-16 md:pr-0">Membros Ativos</h1>
-            <section>
-              <MembersPanel />
-            </section>
-          </>
-        )}
-      </main>
+      <div className="min-h-screen bg-primary-50">
+        <NavigationMenu currentView={currentView} onViewChange={setCurrentView} />
+        <main className="container mx-auto p-4 pt-20 md:pt-4 flex flex-col gap-6">
+          {currentView === 'dashboard' ? (
+            <>
+              <h1 className="text-2xl font-bold text-center pr-16 md:pr-0 text-navy-100">Dashboard de Projeção Financeira</h1>
+              <section>
+                <CashFlowChart />
+              </section>
+              <section className="flex flex-col gap-6">
+                <div className="flex justify-end">
+                  <AddEventButton />
+                </div>
+                <div>
+                  <EventList />
+                </div>
+              </section>
+            </>
+          ) : (
+            <>
+              <h1 className="text-2xl font-bold text-center pr-16 md:pr-0 text-navy-100">Membros Ativos</h1>
+              <section>
+                <MembersPanel />
+              </section>
+            </>
+          )}
+        </main>
+      </div>
     </FinancialDashboardProvider>
   );
 }

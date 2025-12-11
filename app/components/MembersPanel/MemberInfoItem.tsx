@@ -4,9 +4,9 @@ export default function MemberInfoItem({ icon, label, value }: MemberInfoItemTyp
   return (
     <div className="flex items-center gap-2">
       {icon}
-      <div className="flex flex-col">
-        <span className="text-gray-500 text-sm">{label}</span>
-        <span className="text-gray-900 font-bold text-xl">{value}</span>
+      <div className="flex flex-col text-navy-100">
+        <span className="text-sm">{label}</span>
+        <span className="font-bold text-xl">{value}</span>
       </div>
     </div>
   );

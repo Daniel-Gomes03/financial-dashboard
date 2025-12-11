@@ -20,10 +20,10 @@ export function AddEventButton() {
     <>
       <button
         onClick={() => setIsDialogOpen(true)}
-        className="w-full md:w-auto px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 justify-center shadow-lg"
+        className="cursor-pointer w-full md:w-auto px-6 py-3 bg-primary-500 text-white font-bold rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2 justify-center shadow-lg"
       >
-        <FaPlus className="w-5 h-5" />
-        <span>Adicionar Evento</span>
+        <FaPlus className="w-5 h-5 text-white" />
+        <span className="text-white">Adicionar Evento</span>
       </button>
 
       <Dialog

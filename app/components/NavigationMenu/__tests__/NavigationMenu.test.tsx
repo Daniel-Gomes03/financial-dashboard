@@ -106,7 +106,7 @@ describe('NavigationMenu', () => {
     await user.click(menuButton);
 
     const membersButton = screen.getByText('Membros').closest('button');
-    expect(membersButton).toHaveClass('bg-blue-50', 'text-blue-600', 'font-semibold');
+    expect(membersButton).toHaveClass('bg-primary-50', 'text-primary-500', 'font-semibold');
   });
 
   it('should highlight active view (dashboard)', async () => {
@@ -119,7 +119,7 @@ describe('NavigationMenu', () => {
     await user.click(menuButton);
 
     const dashboardButton = screen.getByText('Dashboard').closest('button');
-    expect(dashboardButton).toHaveClass('bg-blue-50', 'text-blue-600', 'font-semibold');
+    expect(dashboardButton).toHaveClass('bg-primary-50', 'text-primary-500', 'font-semibold');
   });
 
   it('should not highlight inactive view', async () => {
@@ -130,7 +130,7 @@ describe('NavigationMenu', () => {
     await user.click(menuButton);
 
     const membersButton = screen.getByText('Membros').closest('button');
-    expect(membersButton).not.toHaveClass('bg-blue-50', 'text-blue-600', 'font-semibold');
+    expect(membersButton).not.toHaveClass('bg-primary-50', 'text-primary-500', 'font-semibold');
     expect(membersButton).toHaveClass('text-gray-700');
   });
 
@@ -165,11 +165,11 @@ describe('NavigationMenu', () => {
       'right-4',
       'z-50',
       'p-3',
-      'bg-blue-600',
+      'bg-primary-500',
       'text-white',
       'rounded-lg',
       'shadow-lg',
-      'hover:bg-blue-700',
+      'hover:bg-primary-600',
       'transition-colors',
       'flex',
       'items-center',

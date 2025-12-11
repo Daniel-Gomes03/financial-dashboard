@@ -28,7 +28,7 @@ describe('TextInput', () => {
 
   it('should not render prefix when not provided', () => {
     const { container } = render(<TextInput label="Test Label" />);
-    const prefix = container.querySelector('span.text-gray-500');
+    const prefix = container.querySelector('span.text-navy-100');
     expect(prefix).not.toBeInTheDocument();
   });
 
@@ -75,11 +75,12 @@ describe('TextInput', () => {
       'rounded',
       'border',
       'border-gray-300',
-      'focus:border-blue-500',
+      'focus:border-primary-500',
       'focus:ring',
-      'focus:ring-blue-200',
+      'focus:ring-primary-200',
       'focus:outline-none',
-      'transition-colors'
+      'transition-colors',
+      'text-navy-100'
     );
   });
 
@@ -91,13 +92,13 @@ describe('TextInput', () => {
 
   it('should apply correct CSS classes to prefix', () => {
     const { container } = render(<TextInput label="Test Label" prefix="R$" />);
-    const prefix = container.querySelector('span.text-gray-500');
+    const prefix = container.querySelector('span.text-navy-100');
     expect(prefix).toHaveClass(
       'absolute',
       'left-3',
       'top-[22px]',
       '-translate-y-1/2',
-      'text-gray-500'
+      'text-navy-100'
     );
   });
 

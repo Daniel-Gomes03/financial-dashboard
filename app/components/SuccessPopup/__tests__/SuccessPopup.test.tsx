@@ -208,7 +208,7 @@ describe('SuccessPopup', () => {
 
     const innerDiv = outerDiv.firstChild as HTMLElement;
     expect(innerDiv).toHaveClass(
-      'bg-green-500',
+      'bg-primary-600',
       'text-white',
       'rounded-lg',
       'shadow-lg',

@@ -171,7 +171,7 @@ export function EventForm({ onSuccess }: { onSuccess?: () => void }) {
           />
         </div>
       )}
-      <button type="submit" className="cursor-pointer w-full sm:w-auto px-6 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition">Adicionar</button>
+      <button type="submit" className="cursor-pointer w-full sm:w-auto px-6 py-2 bg-primary-500 text-white font-bold rounded hover:bg-primary-600 transition">Adicionar</button>
       <SuccessPopup 
         message="Evento cadastrado com sucesso!" 
         isVisible={success} 

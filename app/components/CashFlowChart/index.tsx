@@ -18,19 +18,20 @@ export function CashFlowChart() {
 
   return (
     <div className="w-full h-[400px] bg-white rounded-lg shadow p align-center items-center justify-center">
-      <h1 className='text-lg font-bold text-center mb-3'>Gráfico de Fluxo de Caixa</h1>
+      <h1 className='text-lg font-bold text-center mb-3 text-navy-100'>Gráfico de Fluxo de Caixa</h1>
       <ResponsiveContainer width="100%" height="90%" >
         <BarChart data={data} >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" />
+          <XAxis dataKey="year" stroke="#1A365E" />
           <YAxis 
             tickFormatter={formatYAxisValue} 
             width={80}
+            stroke="#1A365E"
           />
-          <Tooltip formatter={(value: number) => formatToCurrency(value)} />
+          <Tooltip formatter={(value: number) => formatToCurrency(value)} contentStyle={{ color: '#1A365E'}} />
           <Legend />
           <Bar dataKey="despesas" name="Despesas" fill="#f87171" />
-          <Bar dataKey="renda" name="Renda" fill="#34d399" />
+          <Bar dataKey="renda" name="Renda" fill="#67b9b5" />
         </BarChart>
       </ResponsiveContainer>
     </div>

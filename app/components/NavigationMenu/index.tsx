@@ -33,7 +33,7 @@ export function NavigationMenu({ currentView, onViewChange }: NavigationMenuType
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 right-4 z-50 p-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+        className="cursor-pointer fixed top-4 right-4 z-50 p-3 bg-primary-500 text-white rounded-lg shadow-lg hover:bg-primary-600 transition-colors flex items-center gap-2"
         aria-label="Menu de navegação"
         aria-expanded={isOpen}
       >
@@ -45,7 +45,7 @@ export function NavigationMenu({ currentView, onViewChange }: NavigationMenuType
           <button
             onClick={() => handleViewChange('members')}
             className={`w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-gray-100 transition-colors ${
-              currentView === 'members' ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700'
+              currentView === 'members' ? 'bg-primary-50 text-primary-500 font-semibold' : 'text-gray-700'
             }`}
           >
             <FaUsers className="w-5 h-5" />
@@ -54,7 +54,7 @@ export function NavigationMenu({ currentView, onViewChange }: NavigationMenuType
           <button
             onClick={() => handleViewChange('dashboard')}
             className={`w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-gray-100 transition-colors border-t border-gray-200 ${
-              currentView === 'dashboard' ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700'
+              currentView === 'dashboard' ? 'bg-primary-50 text-primary-500 font-semibold' : 'text-gray-700'
             }`}
           >
             <FaChartLine className="w-5 h-5" />

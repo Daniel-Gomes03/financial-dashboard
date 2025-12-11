@@ -7,14 +7,14 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputType>(
   ({ prefix, error, helperText, label, ...rest }, ref) => {
     return (
       <div>
-        <label className="block text-sm font-medium">{label}</label>
+        <label className="block text-sm font-medium text-navy-100">{label}</label>
         <div className="relative">
-          {prefix && <span className="absolute left-3 top-[22px] -translate-y-1/2 text-gray-500">{prefix}</span>}
+          {prefix && <span className="absolute left-3 top-[22px] -translate-y-1/2 text-navy-100">{prefix}</span>}
           <input
             {...rest}
             ref={ref}
             type="text"
-            className="w-full h-9 mt-1 pl-10 rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none transition-colors"
+            className="w-full h-9 mt-1 pl-10 rounded border border-gray-300 focus:border-primary-500 focus:ring focus:ring-primary-200 focus:outline-none transition-colors text-navy-100"
           />
         </div>
         {error && <span className="text-red-500 text-xs">{helperText}</span>}

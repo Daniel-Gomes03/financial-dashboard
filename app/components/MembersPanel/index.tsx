@@ -11,7 +11,6 @@ export function MembersPanel() {
   
   return (
     <section>
-      <h2 className="text-xl font-semibold mb-4">Membros Ativos</h2>
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr] gap-4 ">
         {members.map((member) => (
           <div key={member.uuid} className="bg-white rounded-lg shadow p-6 flex flex-col gap-6">

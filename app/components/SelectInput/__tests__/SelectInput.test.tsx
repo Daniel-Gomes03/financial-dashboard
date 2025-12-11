@@ -114,11 +114,12 @@ describe('SelectInput', () => {
       'rounded',
       'border',
       'border-gray-300',
-      'focus:border-blue-500',
+      'focus:border-primary-600',
       'focus:ring',
-      'focus:ring-blue-200',
+      'focus:ring-primary-200',
       'focus:outline-none',
-      'transition-colors'
+      'transition-colors',
+      'text-navy-100'
     );
   });
 

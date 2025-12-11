@@ -153,7 +153,7 @@ describe('CashFlowChart', () => {
     const rendaBar = screen.getByTestId('bar-renda');
     expect(rendaBar).toBeInTheDocument();
     expect(rendaBar.getAttribute('data-name')).toBe('Renda');
-    expect(rendaBar.getAttribute('data-fill')).toBe('#34d399');
+    expect(rendaBar.getAttribute('data-fill')).toBe('#67b9b5');
   });
 
   it('should handle missing renda dataset gracefully', () => {
