@@ -111,3 +111,10 @@ export type DialogType = {
   title: string;
   children: React.ReactNode;
 };
+
+export type EventsStateType = {
+  events: FinancialEventType[];
+  addEvent: (event: FinancialEventType) => void;
+  removeEvent: (eventId: string) => void;
+  setEvents: (events: FinancialEventType[]) => void;
+};

@@ -1,9 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AddEventButton } from '../index';
+import { DialogType } from '@/app/types';
 
 jest.mock('../../Dialog', () => ({
-  Dialog: ({ isOpen, onClose, title, children }: any) => (
+  Dialog: ({ isOpen, onClose, title, children }: DialogType) => (
     isOpen ? (
       <div data-testid="dialog">
         <div data-testid="dialog-title">{title}</div>
@@ -15,7 +16,7 @@ jest.mock('../../Dialog', () => ({
 }));
 
 jest.mock('../../EventForm', () => ({
-  EventForm: ({ onSuccess }: any) => (
+  EventForm: ({ onSuccess }: { onSuccess?: () => void }) => (
     <div data-testid="event-form">
       <button onClick={onSuccess} data-testid="form-success">Submit</button>
     </div>

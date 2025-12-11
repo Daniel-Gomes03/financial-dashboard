@@ -7,16 +7,12 @@ import { useState, useMemo, ChangeEvent } from 'react';
 import { TextInput } from '../TextInput';
 import { SelectInput } from '../SelectInput';
 import { SuccessPopup } from '../SuccessPopup';
-import { EVENT_TYPE, FRENQUENCY } from '@/app/constants/form.constants';
+import { EVENT_TYPE, FRENQUENCY, FrequencyType } from '@/app/constants/form.constants';
 import { formatToCurrency } from '@/app/utils/formatCurrency';
 import { SelectOptionType } from '@/app/types';
 import { eventFormSchema, EventFormType } from '@/app/schemas/eventForm.schema';
 
-type EventFormProps = {
-  onSuccess?: () => void;
-};
-
-export function EventForm({ onSuccess }: EventFormProps) {
+export function EventForm({ onSuccess }: { onSuccess?: () => void }) {
   const { projection, addEvent } = useFinancialDashboard();
   const years = projection.cash_flow.labels;
   const [success, setSuccess] = useState(false);
@@ -51,9 +47,9 @@ export function EventForm({ onSuccess }: EventFormProps) {
     addEvent({
       type: data.type,
       frequency: data.frequency,
-      year: frequency === 'unica' ? (data.year ?? undefined) : undefined,
-      start_year: frequency === 'mensal' ? (data.start_year ?? undefined) : undefined,
-      end_year: frequency === 'mensal' ? (data.end_year ?? undefined) : undefined,
+      year: frequency === FrequencyType.UNICA ? (data.year ?? undefined) : undefined,
+      start_year: frequency === FrequencyType.MENSAL ? (data.start_year ?? undefined) : undefined,
+      end_year: frequency === FrequencyType.MENSAL ? (data.end_year ?? undefined) : undefined,
       value: data.value,
     });
     setSuccess(true);
@@ -108,7 +104,7 @@ export function EventForm({ onSuccess }: EventFormProps) {
           )}
         />
       </div>
-      {frequency === 'unica' && (
+      {frequency === FrequencyType.UNICA && (
         <div className="flex flex-col sm:flex-row gap-2">
           <div className="flex-1">
             <Controller
@@ -133,7 +129,7 @@ export function EventForm({ onSuccess }: EventFormProps) {
           </div>
         </div>
       )}
-      {frequency === 'mensal' && (
+      {frequency === FrequencyType.MENSAL && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <Controller
             name="start_year"

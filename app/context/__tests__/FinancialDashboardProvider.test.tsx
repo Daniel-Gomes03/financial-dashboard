@@ -1,6 +1,6 @@
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { FinancialDashboardProvider, useFinancialDashboard } from '../FinancialDashboardProvider';
-import { SimulationDataType, ProjectionType } from '@/app/types';
+import { SimulationDataType, ProjectionType, FinancialEventType } from '@/app/types';
 
 jest.mock('uuid', () => ({
   v4: jest.fn(() => 'mock-uuid-123'),
@@ -14,6 +14,25 @@ jest.mock('@/app/utils/formatCurrency', () => ({
       maximumFractionDigits: 2,
     });
   }),
+}));
+
+const mockEvents: FinancialEventType[] = [];
+const mockAddEvent = jest.fn((event: FinancialEventType) => {
+  mockEvents.unshift(event);
+});
+const mockRemoveEvent = jest.fn((eventId: string) => {
+  const index = mockEvents.findIndex(e => e.id === eventId);
+  if (index > -1) {
+    mockEvents.splice(index, 1);
+  }
+});
+
+jest.mock('@/app/store/eventsStore', () => ({
+  useEventsStore: jest.fn(() => ({
+    events: mockEvents,
+    addEvent: mockAddEvent,
+    removeEvent: mockRemoveEvent,
+  })),
 }));
 
 const mockProjection: ProjectionType = {
@@ -83,6 +102,8 @@ describe('FinancialDashboardProvider', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     global.fetch = jest.fn();
+    mockEvents.length = 0;
+    localStorage.clear();
   });
 
   it('should show loading state initially', () => {

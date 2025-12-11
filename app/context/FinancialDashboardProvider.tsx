@@ -9,32 +9,75 @@ import {
 } from "../types";
 import { v4 as uuidv4 } from "uuid";
 import { formatToCurrency } from "../utils/formatCurrency";
+import { EVENT_TYPE_LABELS, EventType, FREQUENCY_LABELS, FrequencyType } from "../constants/form.constants";
+import { useEventsStore } from "../store/eventsStore";
 
 export const FinancialDashboardContext = createContext<FinancialDashboardContextType | undefined>(undefined);
+
+function findDataset(projection: ProjectionType, name: string) {
+  return projection.cash_flow.datasets.find((d) => d.name === name);
+}
+
+function getDatasetByType(projection: ProjectionType, type: EventType) {
+  const datasetName = type === EventType.RENDA ? "Renda" : "Despesas";
+  return findDataset(projection, datasetName);
+}
+
+function applyValueToDataset(
+  dataset: { data: number[] } | undefined,
+  index: number,
+  value: number
+): void {
+  if (dataset && index !== -1) {
+    dataset.data[index] += value;
+  }
+}
+
+function getYearIndex(labels: number[], year: number): number {
+  return labels.indexOf(year);
+}
+
+function processUniqueEvent(
+  projection: ProjectionType,
+  type: EventType,
+  value: number,
+  year: number
+): void {
+  const dataset = getDatasetByType(projection, type);
+  const index = getYearIndex(projection.cash_flow.labels, year);
+  applyValueToDataset(dataset, index, value);
+}
+
+function processMonthlyEvent(
+  projection: ProjectionType,
+  type: EventType,
+  value: number,
+  startYear: number,
+  endYear: number
+): void {
+  const dataset = getDatasetByType(projection, type);
+  const monthlyValue = value * 12;
+  
+  for (let year = startYear; year <= endYear; year++) {
+    const index = getYearIndex(projection.cash_flow.labels, year);
+    applyValueToDataset(dataset, index, monthlyValue);
+  }
+}
 
 function processEventOnProjection(projection: ProjectionType, event: FinancialEventType): ProjectionType {
   const { type, frequency, value, year, start_year, end_year } = event;
   const newProjection = JSON.parse(JSON.stringify(projection)) as ProjectionType;
-  const renda = newProjection.cash_flow.datasets.find((d) => d.name === "Renda");
-  const despesas = newProjection.cash_flow.datasets.find((d) => d.name === "Despesas");
 
-  if (frequency === "unica" && typeof year === "number") {
-    const idx = newProjection.cash_flow.labels.indexOf(year);
-    if (idx !== -1) {
-      if (type === "renda") renda && (renda.data[idx] += value);
-      if (type === "despesa") despesas && (despesas.data[idx] += value);
-    }
+  if (frequency === FrequencyType.UNICA && typeof year === "number") {
+    processUniqueEvent(newProjection, type as EventType, value, year);
   } else if (
-    frequency === "mensal" && typeof start_year === "number" && typeof end_year === "number"
+    frequency === FrequencyType.MENSAL &&
+    typeof start_year === "number" &&
+    typeof end_year === "number"
   ) {
-    for (let year = start_year; year <= end_year; ++year) {
-      const idx = newProjection.cash_flow.labels.indexOf(year);
-      if (idx !== -1) {
-        if (type === "renda") renda && (renda.data[idx] += value * 12);
-        if (type === "despesa") despesas && (despesas.data[idx] += value * 12);
-      }
-    }
+    processMonthlyEvent(newProjection, type as EventType, value, start_year, end_year);
   }
+
   return newProjection;
 }
 
@@ -42,39 +85,55 @@ export const FinancialDashboardProvider = ({ children }: { children: React.React
   const [simulation, setSimulation] = useState<SimulationDataType["simulation"] | undefined>();
   const [projection, setProjection] = useState<SimulationDataType["projection"] | undefined>();
   const [loading, setLoading] = useState(true);
+  const [initialData, setInitialData] = useState<SimulationDataType | null>(null);
+  const { events: savedEvents, addEvent: addEventToStore, removeEvent: removeEventFromStore } = useEventsStore();
 
   useEffect(() => {
     async function fetchInitialData() {
-      setLoading(true);
       try {
         const res = await fetch("/api/simulation-data");
         if (!res.ok) throw new Error("Erro ao carregar dados iniciais");
         const data: SimulationDataType = await res.json();
-        setSimulation(data.simulation);
-        setProjection(data.projection);
-      } catch (e) {
-        setSimulation(undefined);
-        setProjection(undefined);
-      } finally {
-        setLoading(false);
+        setInitialData(data);
+      } catch {
+        setInitialData(null);
       }
     }
     fetchInitialData();
   }, []);
+
+  useEffect(() => {
+    if (!initialData) return;
+
+    const eventsToUse = savedEvents.length > 0 ? savedEvents : initialData.simulation.events;
+    
+    setSimulation({ ...initialData.simulation, events: eventsToUse });
+    
+    let updatedProjection = initialData.projection;
+    for (const evento of eventsToUse) {
+      updatedProjection = processEventOnProjection(updatedProjection, evento);
+    }
+    setProjection(updatedProjection);
+    setLoading(false);
+  }, [initialData, savedEvents]);
 
   const addEvent = React.useCallback((event: Omit<FinancialEventType, "id" | "created_at" | "description">) => {
     const newEvent: FinancialEventType = {
       ...event,
       id: uuidv4(),
       created_at: new Date().toISOString(),
-      description: `${event.type === 'renda' ? 'Renda' : 'Despesa'} ${event.frequency === 'unica' ? 'única' : 'mensal'} de R$ ${formatToCurrency(event.value)}`
+      description: `${EVENT_TYPE_LABELS[event.type as EventType]} ${FREQUENCY_LABELS[event.frequency as FrequencyType]} de R$ ${formatToCurrency(event.value)}`
     };
+
+    addEventToStore(newEvent);
+
     setSimulation(prev => prev ? { ...prev, events: [newEvent, ...prev.events] } : prev);
     setProjection(prev => prev ? processEventOnProjection(prev, newEvent) : prev);
-  }, []);
+  }, [addEventToStore]);
 
   const removeEvent = React.useCallback(async (eventId: string) => {
-
+    removeEventFromStore(eventId);
+    
     setSimulation(prev => prev ? { ...prev, events: prev.events.filter(e => e.id !== eventId) } : prev);
 
     if (!simulation) return;
@@ -90,7 +149,7 @@ export const FinancialDashboardProvider = ({ children }: { children: React.React
       setProjection(novaProjection);
     } catch {
     }
-  }, [simulation]);
+  }, [simulation, removeEventFromStore]);
 
   const value = useMemo(
     () => ({

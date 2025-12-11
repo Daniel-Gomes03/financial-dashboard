@@ -3,6 +3,7 @@
 import { useFinancialDashboard } from '../../context/FinancialDashboardProvider';
 import { FaTrash, FaPlusCircle, FaMinusCircle, FaCalendar } from 'react-icons/fa';
 import { formatToCurrency } from '@/app/utils/formatCurrency';
+import { EventType, FrequencyType } from '@/app/constants/form.constants';
 
 export function EventList() {
   const { simulation, removeEvent } = useFinancialDashboard();
@@ -15,14 +16,14 @@ export function EventList() {
       <h2 className="text-xl font-semibold mb-4">Eventos Cadastrados</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {events.map(event => (
-          <div key={event.id} className={`rounded-lg p-4 shadow flex flex-col gap-2 border-l-4 ${event.type === 'renda' ? 'border-green-400 bg-green-50' : 'border-red-400 bg-red-50'}`}>
+          <div key={event.id} className={`rounded-lg p-4 shadow flex flex-col gap-2 border-l-4 ${event.type === EventType.RENDA ? 'border-green-400 bg-green-50' : 'border-red-400 bg-red-50'}`}>
             <div className="flex items-center gap-2 text-lg font-bold">
-              {event.type === 'renda' ? <FaPlusCircle className="w-5 h-5 text-green-500" /> : <FaMinusCircle className="w-5 h-5 text-red-500" />}
+              {event.type === EventType.RENDA ? <FaPlusCircle className="w-5 h-5 text-green-500" /> : <FaMinusCircle className="w-5 h-5 text-red-500" />}
               <span>{event.description}</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-700">
               <FaCalendar className="w-4 h-4" />
-              {event.frequency === 'unica'
+              {event.frequency === FrequencyType.UNICA
                 ? <>Ano: <b>{event.year}</b></>
                 : (
                     <>
